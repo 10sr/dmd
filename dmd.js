@@ -86,12 +86,17 @@ var DMD = (function(){
 
     function setStatusText(innerhtml){
         if (div_status) {
-            div_status.innerHTML = innerhtml +
-                " by <a href=\"https://github.com/10sr/dmd\">dmd.js</a>";
+            if (innerhtml) {
+                div_status.innerHTML = innerhtml +
+                    " by <a href=\"https://github.com/10sr/dmd\">dmd.js</a>";
+            } else {
+                div_status.innerHTML = "";
+            }
         }
     }
 
     function loadContent(name){
+        setStatusText("");
         if (name) {
             if (name in pages_md){
                 div_content.innerHTML =
