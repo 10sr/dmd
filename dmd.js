@@ -1,6 +1,7 @@
 var DMD = (function(){
     var div_content;
     var div_menu;
+    var div_status;
     var pages_md = {};
     var pages_url = {};
     var default_page_name = null;
@@ -23,6 +24,7 @@ var DMD = (function(){
         if (! div_content) { return; }
 
         div_menu = window.document.getElementById("dmd-menu");
+        div_status = window.document.getElementById("dmd-status");
 
         var pages = div_content.getElementsByClassName("dmd-page");
         for (var i = 0; i < pages.length; i++) {
@@ -82,17 +84,27 @@ var DMD = (function(){
         return "";
     }
 
+    function setStatusText(innerhtml){
+        if (div_status) {
+            div_status.innerHTML = innerhtml +
+                " by <a href=\"https://github.com/10sr/dmd\">dmd.js</a>";
+        }
+    }
+
     function loadContent(name){
         if (name) {
             if (name in pages_md){
                 div_content.innerHTML =
                     marked(convertWikiLinks(pages_md[name] || ""));
+                setStatusText("Page generated from pre-coded markdown text");
             } else if (name in pages_url) {
                 fetchContent(pages_url[name], function(xhr){
                     pages_md[name] = xhr.responseText || "";
                     div_content.innerHTML =
                         marked(convertWikiLinks(pages_md[name] || ""));
                 });
+                setStatusText("Page generated from <a href=\"" + name +
+                              ".md\">" + name + ".md</a>");
             } else {
                 div_content.innerHTML = "No content found for '" + name + "'.";
             }
