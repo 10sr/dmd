@@ -84,14 +84,22 @@ var DMD = (function(){
         return "";
     }
 
-    function setStatusText(innerhtml){
-        if (div_status) {
-            if (innerhtml) {
-                div_status.innerHTML = innerhtml +
-                    " by <a href=\"https://github.com/10sr/dmd\">dmd.js</a>";
+    const BY_DMDJS = " by <a href=\"https://github.com/10sr/dmd\">dmd.js</a>";
+    function setStatusText(name){
+        if (! div_status) { return; }
+
+        if (name) {
+            if (name in pages_url) {
+                div_status.innerHTML =
+                    "Page generated from <a href=\"" + name +
+                    ".md\">" + name + ".md</a>" + BY_DMDJS;
             } else {
-                div_status.innerHTML = "";
+                div_status.innerHTML =
+                    "Page generated from pre-coded markdown text" +
+                    BY_DMDJS;
             }
+        } else {
+            div_status.innerHTML = "";
         }
     }
 
@@ -101,15 +109,14 @@ var DMD = (function(){
             if (name in pages_md){
                 div_content.innerHTML =
                     marked(convertWikiLinks(pages_md[name] || ""));
-                setStatusText("Page generated from pre-coded markdown text");
+                setStatusText(name);
             } else if (name in pages_url) {
                 fetchContent(pages_url[name], function(xhr){
                     pages_md[name] = xhr.responseText || "";
                     div_content.innerHTML =
                         marked(convertWikiLinks(pages_md[name] || ""));
+                    setStatusText(name);
                 });
-                setStatusText("Page generated from <a href=\"" + name +
-                              ".md\">" + name + ".md</a>");
             } else {
                 div_content.innerHTML = "No content found for '" + name + "'.";
             }
