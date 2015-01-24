@@ -4,7 +4,7 @@ Dynamic MarkDown loader (dmd.js)
 Dynamically convert maridown contents into html and show.
 You no longer have to convert markdown contents into html sources manually!
 
-This framework depends on `marked.js`.
+This module depends on `marked.js`.
 
 
 
@@ -30,3 +30,9 @@ Pages defined by `dmd-pages` can be accessed with hashes, and titles defined the
 tags are used for name. For example, when a page like
 `<a href="a.md" title="a page" class="dmd-page">README</a>`
 is defined, this content can be accessed via a url like `index.html#a%20page`.
+
+
+License
+-------
+
+This software is unlicensed. See `LICENSE` for details.
