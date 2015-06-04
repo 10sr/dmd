@@ -64,7 +64,7 @@ var DMD = (function(){
     };
 
     function getCurrentHash(){
-        var h = window.content.location.hash;
+        var h = window.location.hash;
         if (h) {
             return (h.substr(1) || "");
         }
